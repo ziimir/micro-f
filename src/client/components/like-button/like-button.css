@@ -1,0 +1,10 @@
+.like-button {
+    display: flex;
+
+    &__icon {
+        width: 16px;
+        height: 16px;
+        background: url('./images/like.png') no-repeat center;
+        background-size: cover;
+    }
+}
