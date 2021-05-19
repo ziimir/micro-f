@@ -18,6 +18,8 @@
     ]
   },
   "include": [
+    "./packages",
+    "./services",
     "./src"
   ]
 }

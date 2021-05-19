@@ -4,7 +4,8 @@ import {LikeButton} from './components/like-button/like-button';
 import {BookMap} from './components/book-map/book-map';
 import {IconFb} from './components/icon/fb/icon';
 import {IconTw} from './components/icon/tw/icon';
-import {DecoreatedComponent} from './components/decorated-component/decoreated-component';
+
+import {MicroFrontend} from '../../packages/micro-f/micro-f';
 
 import './app.css';
 
@@ -15,7 +16,7 @@ export class App extends PureComponent<{}, {}> {
         return (
             <div>
                 Apppppppppp
-                <DecoreatedComponent some={this.state.showSvgs && 'other'} />
+                <MicroFrontend />
                 <IconTw view={this.state.showSvgs ? 'custom' : 'default'} />
                 {this.state.showSvgs && <IconFb />}
                 <LikeButton onClick={() => void this.setState({showSvgs: true})} />

@@ -19,11 +19,12 @@ const clientConfig = {
     target: 'web',
     entry: {
         main: path.resolve(rootDir, 'src/client/index.tsx'),
+        shared: path.resolve(rootDir, 'services/shared-component/index.tsx'),
         polyfills: path.resolve(rootDir, 'src/client/polyfills')
     },
     output: {
         path: path.resolve(rootDir, buildPath),
-        filename: '[name].[hash].js',
+        filename: '[name].js',
         publicPath: publicPath
     },
     module: {
@@ -59,7 +60,7 @@ const clientConfig = {
         new ManifestPlugin({
             fileName: path.resolve(rootDir, config.get('build.serverOutput'), 'manifest.json'),
             publicPath: publicPath,
-            filter: (fileDescriptor) => fileDescriptor.isInitial
+            filter: (fileDescriptor) => fileDescriptor.isInitial  && !fileDescriptor.name.includes('shared')
         }),
         new CleanWebpackPlugin({
             verbose: true
