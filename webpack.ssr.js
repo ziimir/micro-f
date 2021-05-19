@@ -14,12 +14,15 @@ const publicPath = config.get('build.publicPath');
 
 const serverConfig = {
     target: 'node',
-    entry: path.resolve(rootDir, 'src/server/index.ssr.tsx'),
+    entry: {
+        server: path.resolve(rootDir, 'src/server/index.ssr.tsx'),
+        shared: path.resolve(rootDir, 'services/shared-component/index.ssr.tsx')
+    },
     output: {
         // все ассеты хотим положить в out/assets
         path: path.resolve(rootDir, buildPath),
         // а сам файл хотим чтоб лежал в build
-        filename: '../server.page.js',
+        filename: '../[name].page.js',
         publicPath: publicPath,
         libraryTarget: 'commonjs2'
     },

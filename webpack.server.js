@@ -23,6 +23,7 @@ const serverConfig = {
         // нужно сделать для всех импортящихся модулей из билда
         {
             'out/server.page.js':  './server.page',
+            'out/shared.page.js':  './shared.page',
             'out/manifest.json':  './manifest.json'
         },
         nodeExternals()

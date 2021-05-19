@@ -26,6 +26,10 @@ export class MicroFrontend extends React.Component {
     };
 
     render() {
-        return <div id="header-container" />;
+        return (
+            <div id="header-container">
+                {typeof window === 'undefined' ? 'MICROFRONTEND-NODE-PLACEHOLDER' : ''}
+            </div>
+        );
     }
 }

@@ -7,6 +7,8 @@ import expressWinston from 'express-winston';
 
 import mainPageTemplate from './views/main.pug';
 
+import {renderSharedComponent} from '../../services/shared-component/server/render';
+
 const {render} = require('out/server.page.js');
 const manifest = require('out/manifest.json');
 
@@ -83,5 +85,7 @@ app.get('/', function (req, res) {
         reactApp: render()
     }));
 });
+
+app.get('/micro-frontend/shared-component', renderSharedComponent);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
