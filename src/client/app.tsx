@@ -16,7 +16,7 @@ export class App extends PureComponent<{}, {}> {
         return (
             <div>
                 Apppppppppp
-                <MicroFrontend />
+                <MicroFrontend id="shared" />
                 <IconTw view={this.state.showSvgs ? 'custom' : 'default'} />
                 {this.state.showSvgs && <IconFb />}
                 <LikeButton onClick={() => void this.setState({showSvgs: true})} />

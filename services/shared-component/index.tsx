@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 
 import {Test} from './components/test';
 
-(window as any).renderHeader = (containerId: string, history: any) => {
-    ReactDOM.render(
+(window as any).render_shared = (containerId: string) => {
+    ReactDOM.hydrate(
         <Test initial={2} />,
         document.getElementById(containerId),
     );
 };
 
-(window as any).unmountHeader = (containerId: any) => {
+(window as any).unmount_shared = (containerId: string) => {
     ReactDOM.unmountComponentAtNode(document.getElementById(containerId));
 };

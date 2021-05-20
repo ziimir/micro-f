@@ -5,6 +5,8 @@ html
         script(src= src)
     each href in css
         link(rel="stylesheet", href= href)
+    script.
+        !{shared.map((s) => `window['${s.name}'] = '${s.html}';`)}
   body
     h1= message
     div#main

@@ -1,8 +1,8 @@
 import React from 'react';
 
-export class MicroFrontend extends React.Component {
+export class MicroFrontend extends React.Component<{id: string}> {
     componentDidMount() {
-        const scriptId = 'micro-frontend-script-header';
+        const scriptId = `${this.props.id}_script`;
 
         if (document.getElementById(scriptId)) {
             this.renderMicroFrontend();
@@ -18,18 +18,25 @@ export class MicroFrontend extends React.Component {
     }
 
     componentWillUnmount() {
-        (window as any)['unmountHeader']('header-container');
+        (window as any)['unmount_' + this.props.id](this.props.id);
     }
 
     renderMicroFrontend = () => {
-        (window as any)['renderHeader']('header-container');
+        (window as any)['render_' + this.props.id](this.props.id);
     };
 
     render() {
+        const id = this.props.id;
+
         return (
-            <div id="header-container">
-                {typeof window === 'undefined' ? 'MICROFRONTEND-NODE-PLACEHOLDER' : ''}
-            </div>
+            <div
+                id={id}
+                dangerouslySetInnerHTML={{
+                    __html: typeof window === 'undefined' ?
+                        `\{\{MICROFRONTEND-NODE-PLACEHOLDER-FOR_${id}\}\}` :
+                        (window as any)[id]
+                }}
+            />
         );
     }
 }
