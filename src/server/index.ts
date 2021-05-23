@@ -1,9 +1,13 @@
+import "core-js";
+import "regenerator-runtime/runtime";
+
 import path from 'path';
 import express from 'express';
 import config from 'config';
 
 import winston from 'winston';
 import expressWinston from 'express-winston';
+import got from 'got';
 
 import mainPageTemplate from './views/main.pug';
 
@@ -76,13 +80,31 @@ app.use(expressWinston.logger({
     ]
 }));
 
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
+    let reactAppHtml = render();
+
+    // todo: получать регекспом из reactAppHtml
+    const shared: string[] = ['shared'];
+    const sharedWindowStore: {name: string, html: string}[] = [];
+
+    const fetchingComponents = shared
+        .map((s) => got('http://localhost:3000/micro-frontend/shared-component', {resolveBodyOnly: true}));
+
+    const components = await Promise.all(fetchingComponents);
+    shared.forEach((s, index) => {
+        const sharedHtml = components[index];
+
+        reactAppHtml = reactAppHtml.replace(`{{MICROFRONTEND-NODE-PLACEHOLDER-FOR_${s}}}`, sharedHtml);
+        sharedWindowStore.push({name: s, html: sharedHtml});
+    });
+
     res.send(mainPageTemplate({
         js: assets.js,
         css: assets.css,
         title: 'Hey!',
         message: 'Hello there!',
-        reactApp: render()
+        reactApp: reactAppHtml,
+        shared: sharedWindowStore
     }));
 });
 

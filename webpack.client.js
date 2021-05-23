@@ -3,8 +3,7 @@ const merge = require('webpack-merge');
 const config = require('config');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 
 const baseConfig = require('./tools/webpack.base.config');
 const devConfig = require('./tools/webpack.dev.config');
@@ -57,13 +56,10 @@ const clientConfig = {
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css'
         }),
-        new ManifestPlugin({
+        new WebpackManifestPlugin({
             fileName: path.resolve(rootDir, config.get('build.serverOutput'), 'manifest.json'),
             publicPath: publicPath,
             filter: (fileDescriptor) => fileDescriptor.isInitial  && !fileDescriptor.name.includes('shared')
-        }),
-        new CleanWebpackPlugin({
-            verbose: true
         })
     ]
 };

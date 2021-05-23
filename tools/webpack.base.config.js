@@ -1,7 +1,4 @@
-const {getHashDigest} = require('loader-utils');
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-
-const {rootDir, getIconFolders} = require('./utils');
+const {rootDir} = require('./utils');
 
 module.exports = {
     resolve: {
@@ -16,10 +13,11 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: [
-                            '@babel/preset-env'
+                            ['@babel/preset-env']
                         ],
                         plugins: [
-                            '@babel/plugin-proposal-class-properties'
+                            '@babel/plugin-proposal-class-properties',
+                            '@babel/plugin-transform-regenerator'
                         ]
                     }
                 }, {
@@ -43,7 +41,7 @@ module.exports = {
                 }]
             },
             {
-                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/i,
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/i,
                 use: [{
                     loader: 'file-loader',
                     options: {
@@ -54,34 +52,7 @@ module.exports = {
                         publicPath: '/assets'
                     }
                 }]
-            },
-            {
-                test: /\.svg$/i,
-                use: [{
-                    loader: 'svg-sprite-loader',
-                    options: {
-                        symbolId: '[hash]',
-                        esModule: false,
-                        spriteFilename: (svgPath) => {
-                            const svgExt = '.svg';
-                            const MAX_FILE_NAME_LENGTH = 38;
-                            const MAX_FILE_NAME_LENGTH_WITHOUT_EXT = MAX_FILE_NAME_LENGTH - svgExt.length;
-                            const pathHash = getHashDigest(
-                                svgPath,
-                                'sha1',
-                                'hex',
-                                MAX_FILE_NAME_LENGTH_WITHOUT_EXT / 2
-                            );
-
-                            return `${pathHash}[contenthash:${MAX_FILE_NAME_LENGTH_WITHOUT_EXT / 2}]${svgExt}`;
-                        },
-                        extract: true
-                    }
-                }]
             }
         ]
-    },
-    plugins: [
-        new SpriteLoaderPlugin({plainSprite: true})
-    ]
+    }
 };
